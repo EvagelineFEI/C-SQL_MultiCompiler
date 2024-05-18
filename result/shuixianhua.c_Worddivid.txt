@@ -1,0 +1,59 @@
+Tokenauto  Type: Key-words
+Tokenbreak Type: Key-words
+Tokencase  Type: Key-words
+Tokenchar  Type: Key-words
+Tokenconst Type: Key-words
+TokencontinueType: Key-words
+TokendefaultType: Key-words
+Tokendo    Type: Key-words
+TokendoubleType: Key-words
+Tokenelse  Type: Key-words
+Tokenenum  Type: Key-words
+TokenexternType: Key-words
+Tokenfloat Type: Key-words
+Tokenfor   Type: Key-words
+Tokengoto  Type: Key-words
+Tokenif    Type: Key-words
+Tokenint   Type: Key-words
+Tokenlong  Type: Key-words
+TokenregisterType: Key-words
+TokenreturnType: Key-words
+Tokenshort Type: Key-words
+TokensignedType: Key-words
+TokensizeofType: Key-words
+TokenstaticType: Key-words
+TokenstructType: Key-words
+TokenswitchType: Key-words
+TokentypedefType: Key-words
+Tokenunion Type: Key-words
+TokenunsignedType: Key-words
+Tokenvoid  Type: Key-words
+TokenvolatileType: Key-words
+Tokenwhile Type: Key-words
+Tokena     Type: ID
+Tokenb     Type: ID
+Tokenc     Type: ID
+Tokend     Type: ID
+Tokenh     Type: ID
+Tokeni     Type: ID
+TokenincludeType: ID
+Tokenmain  Type: ID
+Tokenmath  Type: ID
+Tokenn     Type: ID
+Tokenpow   Type: ID
+TokenprintfType: ID
+Tokenstdio Type: ID
+Tokensum   Type: ID
+sign#     Type: ID
+sign(     Type: ID
+sign)     Type: ID
+sign+     Type: ID
+sign++    Type: ID
+sign/     Type: ID
+sign;     Type: ID
+sign<     Type: ID
+sign=     Type: ID
+sign==    Type: ID
+sign>     Type: ID
+sign{     Type: ID
+sign}     Type: ID

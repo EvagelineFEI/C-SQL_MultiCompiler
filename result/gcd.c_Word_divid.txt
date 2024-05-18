@@ -1,0 +1,27 @@
+-----------------Key words Table-----------------
+Token else  Type: Key-words
+Token if    Type: Key-words
+Token int   Type: Key-words
+Token returnType: Key-words
+Token void  Type: Key-words
+-----------------Identifiers Table---------------
+Token gcd   Type: ID
+Token input Type: ID
+Token intputType: ID
+Token main  Type: ID
+Token outputType: ID
+Token u     Type: ID
+Token v     Type: ID
+Token x     Type: ID
+Token y     Type: ID
+------------------Signs Table--------------------
+sign (     Type: sign
+sign )     Type: sign
+sign *     Type: sign
+sign -     Type: sign
+sign /     Type: sign
+sign ;     Type: sign
+sign =     Type: sign
+sign ==    Type: sign
+sign {     Type: sign
+sign }     Type: sign

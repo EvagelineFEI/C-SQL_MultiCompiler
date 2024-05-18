@@ -1,0 +1,37 @@
+-----------------Key words Table-----------------
+Token else  Type: Key-words
+Token for   Type: Key-words
+Token if    Type: Key-words
+Token int   Type: Key-words
+Token returnType: Key-words
+-----------------Identifiers Table---------------
+Token ERROR Type: ID
+Token d     Type: ID
+Token h     Type: ID
+Token i     Type: ID
+Token includeType: ID
+Token j     Type: ID
+Token m     Type: ID
+Token main  Type: ID
+Token n     Type: ID
+Token prime Type: ID
+Token printfType: ID
+Token scanf Type: ID
+Token stdio Type: ID
+------------------Signs Table--------------------
+sign #     Type: sign
+sign &     Type: sign
+sign &&    Type: sign
+sign (     Type: sign
+sign )     Type: sign
+sign ++    Type: sign
+sign -     Type: sign
+sign /     Type: sign
+sign ;     Type: sign
+sign <     Type: sign
+sign <=    Type: sign
+sign =     Type: sign
+sign ==    Type: sign
+sign >     Type: sign
+sign {     Type: sign
+sign }     Type: sign

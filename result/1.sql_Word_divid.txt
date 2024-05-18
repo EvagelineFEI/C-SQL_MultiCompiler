@@ -1,0 +1,36 @@
+-----------------Key words Table-----------------
+Token as    Type: Key-words
+Token avg   Type: Key-words
+Token count Type: Key-words
+Token selectType: Key-words
+Token sum   Type: Key-words
+Token where Type: Key-words
+-----------------Identifiers Table---------------
+Token base  Type: ID
+Token by    Type: ID
+Token chargeType: ID
+Token date  Type: ID
+Token disc  Type: ID
+Token discountType: ID
+Token extendedpriceType: ID
+Token from  Type: ID
+Token group Type: ID
+Token intervalType: ID
+Token l     Type: ID
+Token lineitemType: ID
+Token linestatusType: ID
+Token order Type: ID
+Token price Type: ID
+Token qty   Type: ID
+Token quantityType: ID
+Token returnflagType: ID
+Token shipdateType: ID
+Token tax   Type: ID
+------------------Signs Table--------------------
+sign (     Type: sign
+sign )     Type: sign
+sign *     Type: sign
+sign +     Type: sign
+sign -     Type: sign
+sign ;     Type: sign
+sign <=    Type: sign

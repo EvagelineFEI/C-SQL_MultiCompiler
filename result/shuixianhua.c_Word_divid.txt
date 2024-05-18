@@ -1,0 +1,34 @@
+-----------------Key words Table-----------------
+Token for   Type: Key-words
+Token if    Type: Key-words
+Token int   Type: Key-words
+Token returnType: Key-words
+-----------------Identifiers Table---------------
+Token a     Type: ID
+Token b     Type: ID
+Token c     Type: ID
+Token d     Type: ID
+Token h     Type: ID
+Token i     Type: ID
+Token includeType: ID
+Token main  Type: ID
+Token math  Type: ID
+Token n     Type: ID
+Token pow   Type: ID
+Token printfType: ID
+Token stdio Type: ID
+Token sum   Type: ID
+------------------Signs Table--------------------
+sign #     Type: sign
+sign (     Type: sign
+sign )     Type: sign
+sign +     Type: sign
+sign ++    Type: sign
+sign /     Type: sign
+sign ;     Type: sign
+sign <     Type: sign
+sign =     Type: sign
+sign ==    Type: sign
+sign >     Type: sign
+sign {     Type: sign
+sign }     Type: sign
