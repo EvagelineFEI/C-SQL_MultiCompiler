@@ -200,6 +200,10 @@ void WordAnalyse::words_analyse() {
                 PUSH(";", ";");
                     Signs.insert(";");
                     break;
+                case ',':
+                PUSH(",", ",");
+                    Signs.insert(",");
+                    break;
                 case '+':
                     string_get.clear();
                     ADD(ch);

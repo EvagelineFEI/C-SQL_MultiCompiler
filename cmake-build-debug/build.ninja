@@ -79,6 +79,12 @@ build CMakeFiles/Fei_compiler.dir/compiler/LR0.cpp.obj: CXX_COMPILER__Fei_compil
   OBJECT_DIR = CMakeFiles\Fei_compiler.dir
   OBJECT_FILE_DIR = CMakeFiles\Fei_compiler.dir\compiler
 
+build CMakeFiles/Fei_compiler.dir/compiler/GrammarRule.cpp.obj: CXX_COMPILER__Fei_compiler_Debug D$:/ILOVE_CODING/C_love_feifei/Fei_compiler/compiler/GrammarRule.cpp || cmake_object_order_depends_target_Fei_compiler
+  DEP_FILE = CMakeFiles\Fei_compiler.dir\compiler\GrammarRule.cpp.obj.d
+  FLAGS = -g -std=gnu++14
+  OBJECT_DIR = CMakeFiles\Fei_compiler.dir
+  OBJECT_FILE_DIR = CMakeFiles\Fei_compiler.dir\compiler
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Fei_compiler
@@ -87,7 +93,7 @@ build CMakeFiles/Fei_compiler.dir/compiler/LR0.cpp.obj: CXX_COMPILER__Fei_compil
 #############################################
 # Link the executable Fei_compiler.exe
 
-build Fei_compiler.exe: CXX_EXECUTABLE_LINKER__Fei_compiler_Debug CMakeFiles/Fei_compiler.dir/compiler/main.cpp.obj CMakeFiles/Fei_compiler.dir/compiler/WordAnalyse.cpp.obj CMakeFiles/Fei_compiler.dir/compiler/LR0.cpp.obj
+build Fei_compiler.exe: CXX_EXECUTABLE_LINKER__Fei_compiler_Debug CMakeFiles/Fei_compiler.dir/compiler/main.cpp.obj CMakeFiles/Fei_compiler.dir/compiler/WordAnalyse.cpp.obj CMakeFiles/Fei_compiler.dir/compiler/LR0.cpp.obj CMakeFiles/Fei_compiler.dir/compiler/GrammarRule.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Fei_compiler.dir

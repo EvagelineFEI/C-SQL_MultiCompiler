@@ -3,4 +3,4 @@ project(Fei_compiler)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Fei_compiler compiler/main.cpp compiler/WordAnalyse.h compiler/WordAnalyse.cpp compiler/LR0.h compiler/LR0.cpp)
+add_executable(Fei_compiler compiler/main.cpp compiler/WordAnalyse.h compiler/WordAnalyse.cpp compiler/LR0.h compiler/LR0.cpp compiler/GrammarRule.h compiler/GrammarRule.cpp)
