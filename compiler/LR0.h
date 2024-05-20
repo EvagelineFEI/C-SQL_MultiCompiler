@@ -19,14 +19,16 @@ class StateSet{
 class LeftRightZero{
 public:
     // get grammar rules from file
-    LeftRightZero(ifstream &grammar_file);
-    void get_grammars(ifstream &target_file);
+    LeftRightZero(string language, string gram_file);
+    void get_grammars();
     void generate_lr0_item();
     void construct_table();
     void MakeDFA();
     void gram_analyse();
 
 private:
+    string target_language;
+    ifstream grammar_file;
     // Store the grammar rules;
     vector<GrammarRule> original_rule_set;
     // Process the grammar rules and get lr0 items
