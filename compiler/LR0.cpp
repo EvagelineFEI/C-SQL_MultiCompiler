@@ -1,9 +1,12 @@
 //
 // Created by yys on 2024-05-19.
 //
+#include <sstream>
 # include "LR0.h"
 # include "GrammarRule.h"
+
 using namespace std;
+char CH = '$';
 LeftRightZero::LeftRightZero(string  language, string gram_file) {
     target_language = language;
     grammar_file.open("../target_languages-info/"+gram_file, ios::in);
@@ -31,7 +34,7 @@ void LeftRightZero::get_grammars() {
             if(pos < line.length())
             {
                 auto divide = line.find_first_of("->");
-                size_t begin = divide+2;
+                size_t begin = divide+3;
                 string left = line.substr(0, divide);
                 string right = line.substr(divide+2);
                 size_t or_pos = line.find("|");
@@ -74,7 +77,7 @@ void LeftRightZero::get_grammars() {
             {
                 auto divide = line.find_first_of("::=");
                 left = line.substr(0, divide);
-                string right = line.substr(divide+3);
+                string right = line.substr(divide+4);
                 GrammarRule rule(left,right,-1,-1);
                 original_rule_set.push_back(rule);
             }
@@ -84,11 +87,85 @@ void LeftRightZero::get_grammars() {
 }
 
 void LeftRightZero::generate_lr0_item() {
+    for(auto rule: original_rule_set)
+    {
+        string temp = rule.right;
+        size_t idx=0;
+        while(idx<=temp.length())
+        {
+            temp = temp.insert(idx, reinterpret_cast<const char *>(CH));
+            GrammarRule lr0=GrammarRule(rule.left,temp,-1,-1);
+            rule_lr0_set.push_back(lr0);
+            // 找到下一个符号的起始位置
+            idx = get_symbol_idx(temp);
+            temp = temp.substr(idx+1);
+        }
+    }
+}
+
+void LeftRightZero::get_none_end_symbol() {
+    //先找非终结符
+    for(auto rule:original_rule_set)
+    {
+        if(!none_end_symbol.empty())
+        {
+            auto it = find(none_end_symbol.begin(), none_end_symbol.end(), rule.left);
+            if(it==end_symbol.end())none_end_symbol.push_back(rule.left);
+        }
+
+    }
 
 }
 
-void LeftRightZero::MakeDFA() {
+void LeftRightZero::get_end_symbol(string &a) {
+    // 再找终结符
+    istringstream iss(a);
+    string token;
+    while (iss >> token) {
+        // 检查token是否在非终结符中
+        bool found = false;
+        for (const string& str : none_end_symbol) {
+            if (token == str) {
+                found = true;
+                break;
+            }
+        }
+        StateSet temp_dfa;
+        // 如果没有在B中找到token，则将其添加到终结符中
+        if (!found) {
+            end_symbol.push_back(token);
 
+        }
+    }
+
+}
+void LeftRightZero::MakeDFA() {
+    for (auto rule:rule_lr0_set)
+    {
+        StateSet state;
+        state.rules.push_back(rule);
+        //如果‘.’在最后，跳过
+        size_t idx = rule.right.find(CH);
+        if(idx==rule.right.length()-1)
+        {
+            printf("%s",&rule.right);
+            continue;
+        }
+        // 如果‘.’后面是非终结符;加入相关规则
+        string symbol = get_symbol(rule.right,idx+1);
+        auto it = find(none_end_symbol.begin(), none_end_symbol.end(), symbol);
+        if(it != none_end_symbol.end())
+        {
+            //在rule_lr0_set中找到该终结符的‘.’开头规则
+            for(auto item:rule_lr0_set)
+            {
+                if(item.left==symbol)
+                {
+                    if(item.right[0]==CH)state.rules.push_back(item);
+                }
+            }
+        }
+    }
 }
 
 void LeftRightZero::construct_table() {
