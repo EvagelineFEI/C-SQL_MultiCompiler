@@ -10,6 +10,7 @@
 #include <string>
 #include <map>
 #include <set>
+#include <stack>
 using namespace std;
 class WordAnalyse{
 public:
@@ -19,7 +20,7 @@ public:
 
     void get_key_words(ifstream &target_file); // Get key-words of target language from file
     void show_key_words(ofstream &file);
-
+    string get_token();
     map<pair<string, string>, pair<int, int>> error_list; //Like: ERRORLIST[{"SyntaxError", "Unexpected character"}] = {10, 15};
 private:
     ifstream source_file;

@@ -4,13 +4,18 @@
 #include <sstream>
 # include "LR0.h"
 # include "GrammarRule.h"
-
+#include <algorithm>
 using namespace std;
-char CH = '$';
+char CH = '.';
+StateSet::StateSet(int idx)
+{
+    state_idx = idx;
+    state_type = 's';  // 默认为移进
+}
+
 LeftRightZero::LeftRightZero(string  language, string gram_file) {
     target_language = language;
     grammar_file.open("../target_languages-info/"+gram_file, ios::in);
-
 }
 
 void LeftRightZero::get_grammars() {
@@ -22,7 +27,20 @@ void LeftRightZero::get_grammars() {
     //则继续这样的操作，直到读到换行符
     if(target_language == "c-")
     {
+        string first_line;
         string line;
+        getline(grammar_file,first_line);
+        size_t pos_ = 0;
+        if(isdigit(first_line[0]) && first_line[1]=='.')
+        {
+            pos_ += 3;
+        }
+        auto divide_ = first_line.find_first_of("->");
+        string first_symbol = first_line.substr(0, divide_);
+        start_symbol = first_symbol + "'";
+        GrammarRule start_rule(start_symbol,first_symbol,-1,-1);
+        original_rule_set.push_back(start_rule);
+
         while(getline(grammar_file,line))
         {
             if (line.empty()) continue;
@@ -62,6 +80,14 @@ void LeftRightZero::get_grammars() {
     //换行，如果不是空行，则新建GrammarRule对象，把符号左边部分放到left,“|”右边部分放到right；重复，直到遇见空行
     if(target_language == "c")
     {
+        string first_line;
+        getline(grammar_file,first_line);
+        size_t pos_ = 0;
+        auto divide_ = first_line.find_first_of("::=");
+        string first_symbol = first_line.substr(0, divide_);
+        start_symbol = first_symbol + "'";
+        GrammarRule start_rule(start_symbol,first_symbol,-1,-1);
+        original_rule_set.push_back(start_rule);
         string line;
         string left;
         while(getline(grammar_file,line))
@@ -107,14 +133,9 @@ void LeftRightZero::get_none_end_symbol() {
     //先找非终结符
     for(auto rule:original_rule_set)
     {
-        if(!none_end_symbol.empty())
-        {
-            auto it = find(none_end_symbol.begin(), none_end_symbol.end(), rule.left);
-            if(it==end_symbol.end())none_end_symbol.push_back(rule.left);
-        }
-
+        auto it = count(none_end_symbol.begin(), none_end_symbol.end(), rule.left);
+        if(it==0)none_end_symbol.push_back(rule.left);
     }
-
 }
 
 void LeftRightZero::get_end_symbol(string &a) {
@@ -130,7 +151,6 @@ void LeftRightZero::get_end_symbol(string &a) {
                 break;
             }
         }
-        StateSet temp_dfa;
         // 如果没有在B中找到token，则将其添加到终结符中
         if (!found) {
             end_symbol.push_back(token);
@@ -140,15 +160,19 @@ void LeftRightZero::get_end_symbol(string &a) {
 
 }
 void LeftRightZero::MakeDFA() {
+    int i = 0;
     for (auto rule:rule_lr0_set)
     {
-        StateSet state;
+        StateSet state(i);
         state.rules.push_back(rule);
         //如果‘.’在最后，跳过
         size_t idx = rule.right.find(CH);
         if(idx==rule.right.length()-1)
         {
             printf("%s",&rule.right);
+            //说明是规约项
+            state.state_type = 'r';
+            DFA.push_back(state);
             continue;
         }
         // 如果‘.’后面是非终结符;加入相关规则
@@ -165,13 +189,51 @@ void LeftRightZero::MakeDFA() {
                 }
             }
         }
+        DFA.push_back(state);
+        i++;
     }
 }
 
-void LeftRightZero::construct_table() {
-
+int LeftRightZero::find_state(GrammarRule rule) {
+    string left = rule.left;
+    string right = rule.right;
+    for(auto state:DFA)
+    {
+        vector<GrammarRule> rule_in_state=state.rules;
+        for(auto rule:rule_in_state)
+        {
+            if(rule.left!=left)continue;
+            if(rule.right==right)return state.state_idx;
+        }
+    }
 }
+void LeftRightZero::make_goto()
+{
+    for(auto state :DFA)
+    {
+        vector<GrammarRule> rule_in_state=state.rules;
+        for (auto  rule:rule_in_state)
+        {
+            string temp = rule.right;
+            //如果’.‘后面还有符号，就移进或者规约
+            if(temp.back()!=CH)
+            {
+                // 获取’.‘后面的符号
+                size_t pos = temp.rfind(CH); // rfind返回最后一次出现的下标
+                string symbol = get_symbol(temp,pos+1);
+                // 找到移进之后所在的状态
+                string new_right = temp.substr(0, pos - 1) + symbol + CH + temp.substr(pos + symbol.length());
+                GrammarRule temp_rule(rule.left, new_right,-1,-1);
+                // goto
+                int idx = find_state(temp_rule);
+                go_to[make_pair(state.state_idx,symbol)] = idx;
+            }
+        }
+    }
+}
+//void LeftRightZero::construct_table() {
+//}
 
-void LeftRightZero::gram_analyse() {
-
+void LeftRightZero::gram_analyse(string token) {
+    //
 }

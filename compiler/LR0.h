@@ -7,6 +7,7 @@
 #define MAX 800
 #include <fstream>
 #include <vector>
+#include <map>
 #include <string>
 # include "GrammarRule.h"
 using namespace std;
@@ -14,7 +15,8 @@ using namespace std;
 string get_symbol(string &s, size_t idx){
     string symbol;
     size_t find = idx,i=0;
-    while(s[find]!=' ' && find<s.length()){
+    while(s[find]!=' ' && find<s.length())
+    {
         symbol+=s[find];
         find++;
     }
@@ -32,8 +34,10 @@ class LR0Action{
 
 class StateSet{
 public:
+    StateSet(int idx);
+    int state_idx;
+    char state_type;
     vector<GrammarRule> rules;
-    vector<GrammarRule> get_rules();
 };
 class LeftRightZero{
 public:
@@ -42,14 +46,17 @@ public:
     void get_grammars();
 
     void generate_lr0_item();
-    void construct_table();
+//    void construct_table();
     void MakeDFA();
-    void gram_analyse();
+    void make_goto();
+    int find_state(GrammarRule rule);
+    void gram_analyse(string token);
     vector<string> end_symbol;
     vector<string> none_end_symbol;
-
+    map<pair<int , string >, int> go_to;
 private:
     string target_language;
+    string start_symbol;
     ifstream grammar_file;
     // Store the grammar rules;
     vector<GrammarRule> original_rule_set;

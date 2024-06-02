@@ -2,15 +2,15 @@
 #include "WordAnalyse.h"
 int main() {
     string language;
-    cout << "Please input the language you want to parseè¯·è¾“å…¥ç›®æ ‡è§£æè¯­è¨€" << endl;
+    cout << "Please input the language you want to parseÇëÊäÈëÄ¿±ê½âÎöÓïÑÔ" << endl;
     cin >> language;
     string file_src;
-    cout << "Please input the source file nameè¯·è¾“å…¥æµ‹è¯•æ–‡ä»¶åç§°" << endl;
+    cout << "Please input the source file nameÇëÊäÈë²âÊÔÎÄ¼şÃû³Æ" << endl;
     cin >> file_src;
     string file_tar;
-    cout << "Please input the key-words file of the target languageè¯·è¾“å…¥è§£æçš„ç›®æ ‡è¯­è¨€å…³é”®å­—æ–‡ä»¶" << endl;
+    cout << "Please input the key-words file of the target languageÇëÊäÈë½âÎöµÄÄ¿±êÓïÑÔ¹Ø¼ü×ÖÎÄ¼ş" << endl;
     cin >> file_tar;
-    //è¯æ³•åˆ†æ
+    //´Ê·¨·ÖÎö
     WordAnalyse word( language, file_src,file_tar);
     word.words_analyse();
     ofstream fout;
@@ -18,11 +18,16 @@ int main() {
     word.result(fout);
     if (!word.error_list.empty())
     {
-        cout << "Word analyse ERROR!è¯æ³•åˆ†ææœ‰é”™è¯¯ï¼Œè¯·æ£€æŸ¥ä»£ç å¯¹åº”ä½ç½®";
+        cout << "Word analyse ERROR!´Ê·¨·ÖÎöÓĞ´íÎó£¬Çë¼ì²é´úÂë¶ÔÓ¦Î»ÖÃ";
     }
-    ofstream fout_d;
-    fout_d.open("../result/" + file_src + "_Word_divid.txt", ios::out);
-    word.show_key_words(fout_d);
+    string tokens = word.get_token();
+    cout<< "tokens--------------"<<endl;
+    cout<<tokens;
 
+//    ofstream fout_d;
+//    fout_d.open("../result/" + file_src + "_Word_divid.txt", ios::out);
+//    word.show_key_words(fout_d);
+
+//    printf("%s",&tokens);
     return 0;
 }

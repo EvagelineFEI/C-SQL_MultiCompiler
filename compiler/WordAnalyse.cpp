@@ -445,7 +445,7 @@ void WordAnalyse::words_analyse() {
 
 
 void WordAnalyse::result(ofstream &file) {
-    cout << "Showing the result of Word Analyse词法分析结果" << endl  << endl;
+    cout << "Showing the result of Word Analyse"<<"词法分析结果" << endl  << endl;
     for (auto & Word : Words)
     {
        file << "Token字符值"<<setiosflags(ios::left)<< setw(6)<< Word.first.first<<"  "
@@ -462,6 +462,16 @@ void WordAnalyse::result(ofstream &file) {
     }
 }
 
+string WordAnalyse::get_token() {
+    string res;
+    for(auto & word:Words)
+    {
+        cout<<word.first.second<<" ";
+        res += word.first.second;
+        res += " ";
+    }
+    return res;
+}
 void WordAnalyse::show_key_words(ofstream &file) {
     file << "-----------------Key words Table-----------------"<<endl;
     for (auto &key_word :key_occur)

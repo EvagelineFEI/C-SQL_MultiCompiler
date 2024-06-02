@@ -18,6 +18,7 @@ Token y     Type: ID
 sign (     Type: sign
 sign )     Type: sign
 sign *     Type: sign
+sign ,     Type: sign
 sign -     Type: sign
 sign /     Type: sign
 sign ;     Type: sign
