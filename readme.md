@@ -16,7 +16,12 @@ The syntax analysis adopts the LR0 method, and the implementation approach is ak
 
 At present, the syntax analysis does not yet support C and SQL. However, to add support, it would only require adding some judgments in the lexical analysis part according to the keyword categories appearing in the grammar rules of C and SQL (for example, numbers in C-minus grammar belong to the "NUM" category, while in C grammar they belong to the "integer-constant" or "floating-constant" categories).
 
+## Todo List
 
+- [ ] Support C
+- [ ] Support SQL
+- [ ] Semantic Analysis
+- [ ] Syntax Tree
 
 # Fei-Compiler试图构建一个支持多语言的词法-语法分析器
 
