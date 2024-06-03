@@ -286,7 +286,16 @@ void LeftRightZero::make_goto()
                 size_t pos = temp.rfind(CH); // rfind返回最后一次出现的下标
                 string symbol = get_symbol(temp,pos+1);
                 // 找到移进之后所在的状态
-                string new_right = temp.erase(pos,1);
+                string new_right;
+                if(pos==0)new_right = temp.erase(pos,1);
+                else
+                {
+                    // 先删除pos位置上的字符
+                    new_right = temp.erase(pos, 1);
+                    // 然后在pos位置上插入一个空格
+                    new_right.insert(pos, " ");
+                    pos+=1;
+                }
                 size_t next_pos = pos + symbol.length();
                 if (next_pos < new_right.size() && new_right[next_pos] == ' ') {
                     // 如果symbol后面是空格，替换为空格
@@ -305,7 +314,37 @@ void LeftRightZero::make_goto()
 }
 //void LeftRightZero::construct_table() {
 //}
+// 辅助函数：记录当前步骤
+void LeftRightZero::record_step(ofstream &outfile, const string &operation) {
+    // 记录分析栈
+    stack<string> temp_stack(analyse_stack);
+    vector<string> analyse_stack_vec;
+    while (!temp_stack.empty()) {
+        analyse_stack_vec.push_back(temp_stack.top());
+        temp_stack.pop();
+    }
+    reverse(analyse_stack_vec.begin(), analyse_stack_vec.end());
+    for (const auto &elem : analyse_stack_vec) {
+        outfile << elem << " ";
+    }
+    outfile << "\t"<<"----------------------";
 
+    // 记录输入栈
+    temp_stack = input_stack;
+    vector<string> input_stack_vec;
+    while (!temp_stack.empty()) {
+        input_stack_vec.push_back(temp_stack.top());
+        temp_stack.pop();
+    }
+    reverse(input_stack_vec.begin(), input_stack_vec.end());
+    for (const auto &elem : input_stack_vec) {
+        outfile << elem << " ";
+    }
+    outfile << "\t"<<"----------------------";
+
+    // 记录操作
+    outfile << operation << "\n";
+}
 void LeftRightZero::gram_analyse(string token) {
     //
     get_grammars();
@@ -313,6 +352,9 @@ void LeftRightZero::gram_analyse(string token) {
     generate_lr0_item();
     makeDfa();
     make_goto();
+
+    ofstream outfile("../result/LR0_analyse_result.txt");
+
     istringstream iss(token);
     string word;
     stack<string> temp_input;
@@ -329,55 +371,68 @@ void LeftRightZero::gram_analyse(string token) {
     {
         string symbol = input_stack.top();
         string now_state = analyse_stack.top();
+        bool action_taken = false;
 //        pair<int, string> go(state[0]-'0', symbol);
 //        int next_state = go_to[go];
-        for(auto state:DFA)
+        StateSet state = DFA[stoi(now_state)];
+        if(to_string(state.state_idx)==now_state)
         {
-            if(to_string(state.state_idx)==now_state)
+            if(state.state_type!='r') // 根据实际情况移进
             {
-                if(state.state_type!='r') // 根据实际情况移进
-                {
-                    pair<int, string> go(stoi(now_state), symbol);
-                    int next_state = go_to[go];
-                    analyse_stack.push(symbol);
-                    analyse_stack.push(to_string(next_state));
-                    input_stack.pop();
+                pair<int, string> go(stoi(now_state), symbol);
+                int next_state = go_to[go];
+                analyse_stack.push(symbol);
+                analyse_stack.push(to_string(next_state));
+                input_stack.pop();
+
+                record_step(outfile, "移进");
+                action_taken = true;
+            }
+            else
+            {
+//                    for(auto rule:state.rules)
+//                    {
+//                        cout<<rule.left<<" "<<rule.right<<endl;
+//                    }
+                GrammarRule rule = state.rules[0];
+                string symbol_in = rule.left;
+                string symbol_out = rule.right;
+                symbol_out.pop_back();
+                // 把规约项symbol_out中的内容顺序放入一个临时栈；
+                istringstream get_single(symbol_out);
+                stack<string> temp;
+                string temp0;
+                while (get_single >> temp0) {
+                    temp.push(temp0);
                 }
-                else
+                while(!temp.empty())
                 {
-                    for(auto rule:state.rules)
+                    if(analyse_stack.top()!=temp.top())analyse_stack.pop();
+                    else
                     {
-                        cout<<rule.left<<" "<<rule.right<<endl;
+                        analyse_stack.pop();
+                        temp.pop();
                     }
-                    GrammarRule rule = state.rules[0];
-                    string symbol_in = rule.left;
-                    string symbol_out = rule.right;
-                    symbol_out.pop_back();
-                    // 把规约项symbol_out中的内容逆序放入一个临时栈；
-                    istringstream get_single(symbol_out);
-                    stack<string> temp;
-                    string temp0;
-                    while (get_single >> temp0) {
-                        temp.push(temp0);
-                    }
-                    while(!temp.empty())
-                    {
-                        if(analyse_stack.top()!=temp.top())analyse_stack.pop();
-                        else
-                        {
-                            analyse_stack.pop();
-                            temp.pop();
-                        }
-                    }
-                    string state_top = analyse_stack.top();
-                    analyse_stack.push(symbol_in);
-                    pair<int, string> go(stoi(state_top), symbol_in);
-                    int next_state = go_to[go];
-                    analyse_stack.push(to_string(next_state));
                 }
+                string state_top = analyse_stack.top();
+                analyse_stack.push(symbol_in);
+                pair<int, string> go(stoi(state_top), symbol_in);
+                int next_state = go_to[go];
+                analyse_stack.push(to_string(next_state));
+                action_taken = true;
+                record_step(outfile, "规约");
 
             }
+
         }
-        input_stack.pop();
+
+        if(!action_taken)
+        {
+            outfile<<"Something goes wrong!"<<endl;
+            break;
+        }
     }
+
+
+    outfile.close();
 }

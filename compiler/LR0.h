@@ -43,6 +43,7 @@ public:
     map<pair<int , string >, int> go_to;
     stack<string> input_stack;
     stack<string> analyse_stack;
+    void record_step(ofstream &outfile, const string &operation);
 private:
     string target_language;
     string start_symbol;
