@@ -8,7 +8,7 @@ using namespace std;
 class GrammarRule{
 public:
     string left,right;
-    int back;
+    int back;  // 用于标记是否已经放入dfa中，防止规则重复放入(0无，1有)
     int id;
     GrammarRule ( char s1[] , char s2[] , int x , int y )
     {

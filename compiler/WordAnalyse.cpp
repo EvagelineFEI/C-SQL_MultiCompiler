@@ -456,7 +456,7 @@ void WordAnalyse::result(ofstream &file) {
         cout<< "存在下列的错误输入"<<endl;
         for (auto & i : error_list)
         {
-            cout << i.first.second  << setw(6) << i.first.first << "    ";
+            cout << i.first.second  << setw(6) << i.first.first << "    "<<endl;
             cout << "位置：" << i.second.first << "行" << i.second.second <<"列" << endl;
         }
     }

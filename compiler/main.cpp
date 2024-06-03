@@ -1,5 +1,6 @@
 #include <iostream>
 #include "WordAnalyse.h"
+#include "LR0.h"
 int main() {
     string language;
     cout << "Please input the language you want to parse请输入目标解析语言" << endl;
@@ -16,10 +17,10 @@ int main() {
     ofstream fout;
     fout.open("../result/" + file_src + "_Word_result.txt", ios::out);
     word.result(fout);
-    if (!word.error_list.empty())
-    {
-        cout << "Word analyse ERROR!词法分析有错误，请检查代码对应位置";
-    }
+//    if (!word.error_list.empty())
+//    {
+//        cout << "Word analyse ERROR!词法分析有错误，请检查代码对应位置"<<endl;
+//    }
     string tokens = word.get_token();
     cout<< "tokens--------------"<<endl;
     cout<<tokens;
@@ -29,5 +30,7 @@ int main() {
 //    word.show_key_words(fout_d);
 
 //    printf("%s",&tokens);
+    LeftRightZero grammar_analyse("c-","CMinusGrammar.txt");
+    grammar_analyse.gram_analyse(tokens);
     return 0;
 }

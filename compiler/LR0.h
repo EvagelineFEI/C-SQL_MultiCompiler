@@ -9,25 +9,10 @@
 #include <vector>
 #include <map>
 #include <string>
+#include <stack>
 # include "GrammarRule.h"
 using namespace std;
 // 从字符串s第idx的地方开始找一个完整的字符串（读到空格为止），返回这个字符串
-string get_symbol(string &s, size_t idx){
-    string symbol;
-    size_t find = idx,i=0;
-    while(s[find]!=' ' && find<s.length())
-    {
-        symbol+=s[find];
-        find++;
-    }
-    return symbol;
-}
-
-size_t get_symbol_idx(string &s){
-    size_t idx = 0;
-    while(s[idx]!=' ' && idx<s.length())idx++;
-    return idx;
-}
 class LR0Action{
 
 };
@@ -47,13 +32,17 @@ public:
 
     void generate_lr0_item();
 //    void construct_table();
-    void MakeDFA();
+    void makeDfa();
+    void rule_processor(StateSet &state, GrammarRule &rule);
     void make_goto();
     int find_state(GrammarRule rule);
     void gram_analyse(string token);
+    void show_rules();
     vector<string> end_symbol;
     vector<string> none_end_symbol;
     map<pair<int , string >, int> go_to;
+    stack<string> input_stack;
+    stack<string> analyse_stack;
 private:
     string target_language;
     string start_symbol;
